@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doors OS VIP V8.0™</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- كود StartApp -->
+    <script type="text/javascript">
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://web-sdk.startapp.com/startapp.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'startapp-sdk'));
+    </script>
+</head>
+<body class="body">
+    <h1>Welcome to Doors OS VIP V8.0™ </h1>
+    <p>Ahmed & Mahmoud's Corporation™ Since 2025</p>
+
+    <!-- رسالة الترقية إلى VIP -->
+    <div class="message" id="vipMessage">
+        please upgrade to  VIP verision to use this app !
+    </div>
+
+    <!-- نافذة My Computer -->
+    <div class="window" id="myComputerWindow">
+        <div class="title-bar">
+            My Computer
+            <button class="close-btn" onclick="closeWindow('myComputerWindow')">X</button>
+        </div>
+        <div class="content">
+            <p>This is a simulated My Computer window.</p>
+        </div>
+    </div>
+
+    <!-- نافذة Settings -->
+    <div class="window" id="settingsWindow">
+        <div class="title-bar">
+            Settings
+            <button class="close-btn" onclick="closeWindow('settingsWindow')">X</button>
+        </div>
+        <div class="content">
+            <p>This is a simulated Settings window.</p>
+        </div>
+    </div>
+
+    <!-- نافذة Terminal -->
+    <div class="window" id="terminalWindow">
+        <div class="title-bar">
+            Terminal
+            <button class="close-btn" onclick="closeWindow('terminalWindow')">X</button>
+        </div>
+        <div class="content">
+            <div class="terminal" id="terminalOutput">
+                Doors OS Terminal - Type "help" for commands.<br>
+            </div>
+            <input type="text" id="terminalInput" onkeydown="handleTerminalInput(event)" placeholder="Type a command...">
+        </div>
+    </div>
+
+    <!-- نافذة الآلة الحاسبة -->
+    <div class="window" id="calculatorWindow">
+        <div class="title-bar">
+            Calculator
+            <button class="close-btn" onclick="closeWindow('calculatorWindow')">X</button>
+        </div>
+        <div class="content">
+            <div class="calculator">
+                <input type="text" id="calcInput" disabled>
+                <div class="buttons">
+                    <button onclick="clearInput()">C</button>
+                    <button onclick="appendToInput('/')">/</button>
+                    <button onclick="appendToInput('*')">*</button>
+                    <button onclick="deleteLast()">DEL</button>
+                    <button onclick="appendToInput('7')">7</button>
+                    <button onclick="appendToInput('8')">8</button>
+                    <button onclick="appendToInput('9')">9</button>
+                    <button onclick="appendToInput('-')" class="operator">-</button>
+                    <button onclick="appendToInput('4')">4</button>
+                    <button onclick="appendToInput('5')">5</button>
+                    <button onclick="appendToInput('6')">6</button>
+                    <button onclick="appendToInput('+')" class="operator">+</button>
+                    <button onclick="appendToInput('1')">1</button>
+                    <button onclick="appendToInput('2')">2</button>
+                    <button onclick="appendToInput('3')">3</button>
+                    <button onclick="appendToInput('🤪🤣')">🤪🤣</button>
+                    <button onclick="calculate()" class="equal">=</button>
+                    <button onclick="appendToInput('0')">0</button>
+                    <button onclick="appendToInput('.')">.</button>
+                </div>
+                <button class="theme-btn" onclick="changeTheme()">Change Theme</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- زر Start Menu -->
+    <div class="start-btn" onclick="toggleStartMenu()">☰</div>
+
+    <!-- قائمة Start Menu -->
+    <div class="start-menu" id="startMenu">
+        <ul>
+            <li onclick="openApp('myComputerWindow')">My Computer</li>
+            <li onclick="openVipApp()">VIP Apps</li>
+            <li onclick="openApp('settingsWindow')">Settings</li>
+            <li onclick="openApp('terminalWindow')">Terminal</li>
+            <li onclick="openApp('calculatorWindow')">Calculator</li>
+            <li onclick="shutdown()">Shutdown</li>
+        </ul>
+    </div>
+
+    <!-- Taskbar -->
+    <div class="taskbar" id="taskbar">
+        <!-- التطبيقات المفتوحة ستظهر هنا -->
+         
+    </div>
+
+    <!-- إعلانات StartApp -->
+    <script type="text/javascript">
+        startapp.setAppId(202369440); // استبدل 202369440 بـ App ID الخاص بك
+        startapp.init(); // تهيئة الإعلانات
+
+        // عرض إعلان بيني
+        startapp.showBannerAd();
+    </script>
+
+    <script>
+        // إظهار وإخفاء Start Menu عند النقر على الزر
+        function toggleStartMenu() {
+            let menu = document.getElementById("startMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+
+        // فتح التطبيقات (نوافذ)
+        function openApp(windowId) {
+            let window = document.getElementById(windowId);
+            window.style.display = "block";
+            makeWindowDraggable(window); // جعل النافذة قابلة للسحب
+            addToTaskbar(windowId);
+        }
+
+        // إغلاق النوافذ
+        function closeWindow(windowId) {
+            let window = document.getElementById(windowId);
+            window.style.display = "none";
+            removeFromTaskbar(windowId);
+        }
+
+        // إضافة تطبيق إلى Taskbar
+        function addToTaskbar(windowId) {
+            let taskbar = document.getElementById("taskbar");
+            let window = document.getElementById(windowId);
+            let title = window.querySelector(".title-bar").textContent.trim();
+
+            // تجنب إضافة التطبيق إذا كان موجودًا بالفعل
+            if (document.getElementById(`taskbar-${windowId}`)) return;
+
+            let taskbarItem = document.createElement("div");
+            taskbarItem.id = `taskbar-${windowId}`;
+            taskbarItem.className = "taskbar-item";
+            taskbarItem.textContent = title;
+            taskbarItem.onclick = () => {
+                window.style.display = "block";
+            };
+            taskbar.appendChild(taskbarItem);
+        }
+
+        // إزالة تطبيق من Taskbar
+        function removeFromTaskbar(windowId) {
+            let taskbarItem = document.getElementById(`taskbar-${windowId}`);
+            if (taskbarItem) {
+                taskbarItem.remove();
+            }
+        }
+
+        // جعل النوافذ قابلة للسحب
+        function makeWindowDraggable(window) {
+            let titleBar = window.querySelector(".title-bar");
+            let isDragging = false;
+            let offsetX, offsetY;
+
+            titleBar.addEventListener("mousedown", function(e) {
+                isDragging = true;
+                offsetX = e.clientX - window.offsetLeft;
+                offsetY = e.clientY - window.offsetTop;
+            });
+
+            document.addEventListener("mousemove", function(e) {
+                if (isDragging) {
+                    window.style.left = `${e.clientX - offsetX}px`;
+                    window.style.top = `${e.clientY - offsetY}px`;
+                }
+            });
+
+            document.addEventListener("mouseup", function() {
+                isDragging = false;
+            });
+        }
+
+        // معالجة أوامر Terminal
+        function handleTerminalInput(event) {
+            if (event.key === "Enter") {
+                let input = document.getElementById("terminalInput");
+                let output = document.getElementById("terminalOutput");
+                let command = input.value.trim();
+                input.value = "";
+
+                output.innerHTML += `<div><span style="color: #0f0;">$ ${command}</span></div>`;
+
+                let parts = command.split(" ");
+                let cmd = parts[0];
+                let args = parts.slice(1);
+
+                switch (cmd) {
+                    case "help":
+                        output.innerHTML += `<div>Available commands:<br>
+                                            - help: Show this help message<br>
+                                            - clear: Clear the terminal<br>
+                                            - about: Show system information<br>
+                                            - date: Show current date and time<br>
+                                            - echo [text]: Print the text<br>
+                                            - color [color]: Change text color (e.g., color red)<br>
+                                            - انت عاوز من التيرمينال ايه 😂</div>`;
+                        break;
+                    case "clear":
+                        output.innerHTML = "";
+                        break;
+                    case "about":
+                        output.innerHTML += `<div>DOORS OS VIP V7.0™ - Developed by Ahmed & Mahmoud's Corporation™</div>`;
+                        break;
+                    case "date":
+                        let now = new Date();
+                        output.innerHTML += `<div>Current date and time: ${now.toLocaleString()}</div>`;
+                        break;
+                    case "echo":
+                        if (args.length > 0) {
+                            output.innerHTML += `<div>${args.join(" ")}</div>`;
+                        } else {
+                            output.innerHTML += `<div>Usage: echo [text]</div>`;
+                        }
+                        break;
+                    case "color":
+                        if (args.length > 0) {
+                            let color = args[0];
+                            output.style.color = color;
+                            output.innerHTML += `<div>Text color changed to ${color}.</div>`;
+                        } else {
+                            output.innerHTML += `<div>Usage: color [color]</div>`;
+                        }
+                        break;
+                    default:
+                        output.innerHTML += `<div>Command not found: ${command}</div>`;
+                        break;
+                }
+
+                // التمرير إلى الأسفل
+                output.scrollTop = output.scrollHeight;
+            }
+        }
+
+        // وظائف الآلة الحاسبة
+        let currentTheme = 'dark';
+
+        function appendToInput(value) {
+            document.getElementById('calcInput').value += value;
+        }
+
+        function clearInput() {
+            document.getElementById('calcInput').value = '';
+        }
+
+        function deleteLast() {
+            let input = document.getElementById('calcInput');
+            input.value = input.value.slice(0, -1);
+        }
+
+        function calculate() {
+            let input = document.getElementById('calcInput');
+            try {
+                input.value = eval(input.value);
+            } catch (e) {
+                input.value = 'Error';
+            }
+        }
+
+        function changeTheme() {
+            const calculator = document.querySelector('.calculator');
+            if (currentTheme === 'dark') {
+                calculator.style.backgroundColor = '#f0f0f0';
+                calculator.style.color = '#000';
+                currentTheme = 'light';
+            } else {
+                calculator.style.backgroundColor = '#444';
+                calculator.style.color = '#fff';
+                currentTheme = 'dark';
+            }
+        }
+
+        // إصلاح أمر shutdown
+        function shutdown() {
+            document.body.innerHTML = "<h1>Doors OS VIP V7.0™ 🔥 Shutdown...</h1>";
+        }
+
+        // إصلاح رسالة VIP Apps
+        function openVipApp() {
+            let message = document.getElementById("vipMessage");
+            message.style.display = "block";
+            setTimeout(() => {
+                message.style.display = "none";
+            }, 3000); // إخفاء الرسالة بعد 3 ثواني
+        }
+    </script>
+</body>
+</html>
