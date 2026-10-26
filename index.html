@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doors OS VIP V8.0™</title>
+    <title>Doors OS V10.0™</title>
     <link rel="stylesheet" href="style.css">
-    <!-- كود StartApp -->
+    
     <script type="text/javascript">
         (function(d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
@@ -17,26 +17,102 @@
     </script>
 </head>
 <body class="body">
-    <h1>Welcome to Doors OS VIP V8.0™ </h1>
-    <p>Ahmed & Mahmoud's Corporation™ Since 2025</p>
+    <h1>Welcome to Doors OS V10.0™ </h1>
+    
 
-    <!-- رسالة الترقية إلى VIP -->
-    <div class="message" id="vipMessage">
-        please upgrade to  VIP verision to use this app !
-    </div>
-
-    <!-- نافذة My Computer -->
+    
     <div class="window" id="myComputerWindow">
         <div class="title-bar">
             My Computer
             <button class="close-btn" onclick="closeWindow('myComputerWindow')">X</button>
         </div>
         <div class="content">
-            <p>This is a simulated My Computer window.</p>
+            <div class="drive-item" onclick="openApp('cDriveWindow')">
+                <span class="drive-icon">📁</span> Local Disk (C:)
+            </div>
+        </div>
+    </div>
+    
+    <div class="window" id="cDriveWindow">
+        <div class="title-bar">
+            C:\
+            <button class="close-btn" onclick="closeWindow('cDriveWindow')">X</button>
+        </div>
+        <div class="content">
+            <div class="folder-item" onclick="openApp('windowsFolderWindow')">
+                📂 Doors
+            </div>
+            <div class="folder-item" onclick="openApp('programFilesFolderWindow')">
+                📂 Program Files
+            </div>
+            <div class="folder-item" onclick="openApp('usersFolderWindow')">
+                📂 Users
+            </div>
+            <div class="folder-item" onclick="openApp('documentsFolderWindow')">
+                📂 Documents
+            </div>
+        </div>
+    </div>
+    
+    <div class="window" id="windowsFolderWindow">
+        <div class="title-bar">
+            C:\Windows
+            <button class="close-btn" onclick="closeWindow('windowsFolderWindow')">X</button>
+        </div>
+        <div class="content">
+            <p>This folder is empty.</p>
         </div>
     </div>
 
-    <!-- نافذة Settings -->
+    <div class="window" id="programFilesFolderWindow">
+        <div class="title-bar">
+            C:\Program Files
+            <button class="close-btn" onclick="closeWindow('programFilesFolderWindow')">X</button>
+        </div>
+        <div class="content">
+            <p>This folder is empty.</p>
+        </div>
+    </div>
+
+    <div class="window" id="usersFolderWindow">
+        <div class="title-bar">
+            C:\Users
+            <button class="close-btn" onclick="closeWindow('usersFolderWindow')">X</button>
+        </div>
+        <div class="content">
+            <p>This folder is empty.</p>
+        </div>
+    </div>
+
+    <div class="window" id="documentsFolderWindow">
+        <div class="title-bar">
+            C:\Documents
+            <button class="close-btn" onclick="closeWindow('documentsFolderWindow')">X</button>
+        </div>
+        <div class="content">
+            <p>This folder is empty.</p>
+        </div>
+    </div>
+    <style>
+        
+        .drive-item, .folder-item {
+            padding: 8px;
+            margin: 4px;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        .drive-item:hover, .folder-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .drive-icon {
+            margin-right: 8px;
+        }
+    </style>
+
+    
     <div class="window" id="settingsWindow">
         <div class="title-bar">
             Settings
@@ -47,7 +123,7 @@
         </div>
     </div>
 
-    <!-- نافذة Terminal -->
+   
     <div class="window" id="terminalWindow">
         <div class="title-bar">
             Terminal
@@ -61,7 +137,7 @@
         </div>
     </div>
 
-    <!-- نافذة الآلة الحاسبة -->
+    
     <div class="window" id="calculatorWindow">
         <div class="title-bar">
             Calculator
@@ -86,7 +162,6 @@
                     <button onclick="appendToInput('1')">1</button>
                     <button onclick="appendToInput('2')">2</button>
                     <button onclick="appendToInput('3')">3</button>
-                    <button onclick="appendToInput('🤪🤣')">🤪🤣</button>
                     <button onclick="calculate()" class="equal">=</button>
                     <button onclick="appendToInput('0')">0</button>
                     <button onclick="appendToInput('.')">.</button>
@@ -95,11 +170,61 @@
             </div>
         </div>
     </div>
+    
+<div class="window" id="antivirusWindow">
+    <div class="title-bar">
+        <i class="fas fa-shield-alt"></i> Doors Anti Virus v1.0
+        <button class="close-btn" onclick="closeWindow('antivirusWindow')">X</button>
+    </div>
+    <div class="content">
+        <div class="antivirus">
+            <div class="av-header">
+                <i class="fas fa-shield-virus fa-3x"></i>
+                <h2>System Protection Status: <span id="protectionStatus">Active</span></h2>
+            </div>
+            
+            <div class="scan-section">
+                <div class="progress-container">
+                    <div class="scan-progress" id="scanProgress"></div>
+                </div>
+                <button class="scan-btn" onclick="startScan()">
+                    <i class="fas fa-search"></i> Start Full System Scan
+                </button>
+            </div>
+            
+            <div class="scan-results">
+                <h3><i class="fas fa-file-medical"></i> Scan Report:</h3>
+                <div class="results-grid">
+                    <div class="result-item">
+                        <span class="result-label">Files Scanned:</span>
+                        <span class="result-value" id="filesScanned">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Threats Found:</span>
+                        <span class="result-value" id="threatsFound">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Last Scan:</span>
+                        <span class="result-value" id="lastScan">Never</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="real-time-protection">
+                <h3><i class="fas fa-clock"></i> Real-Time Protection:</h3>
+                <div class="protection-status">
+                    <div class="status-indicator" id="statusIndicator"></div>
+                    <span id="realTimeStatus">Enabled</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <!-- زر Start Menu -->
+    
     <div class="start-btn" onclick="toggleStartMenu()">☰</div>
 
-    <!-- قائمة Start Menu -->
+    
     <div class="start-menu" id="startMenu">
         <ul>
             <li onclick="openApp('myComputerWindow')">My Computer</li>
@@ -107,54 +232,55 @@
             <li onclick="openApp('settingsWindow')">Settings</li>
             <li onclick="openApp('terminalWindow')">Terminal</li>
             <li onclick="openApp('calculatorWindow')">Calculator</li>
+            <li onclick="openApp('antivirusWindow')"><i class="fas fa-shield-alt"></i> Doors Anti Virus</li>
             <li onclick="shutdown()">Shutdown</li>
         </ul>
     </div>
 
-    <!-- Taskbar -->
+   
     <div class="taskbar" id="taskbar">
-        <!-- التطبيقات المفتوحة ستظهر هنا -->
+        
          
     </div>
 
-    <!-- إعلانات StartApp -->
+    
     <script type="text/javascript">
-        startapp.setAppId(202369440); // استبدل 202369440 بـ App ID الخاص بك
-        startapp.init(); // تهيئة الإعلانات
+        startapp.setAppId(202369440);
+        startapp.init(); 
 
-        // عرض إعلان بيني
+       
         startapp.showBannerAd();
     </script>
 
     <script>
-        // إظهار وإخفاء Start Menu عند النقر على الزر
+        
         function toggleStartMenu() {
             let menu = document.getElementById("startMenu");
             menu.style.display = menu.style.display === "block" ? "none" : "block";
         }
 
-        // فتح التطبيقات (نوافذ)
+        
         function openApp(windowId) {
             let window = document.getElementById(windowId);
             window.style.display = "block";
-            makeWindowDraggable(window); // جعل النافذة قابلة للسحب
+            makeWindowDraggable(window); 
             addToTaskbar(windowId);
         }
 
-        // إغلاق النوافذ
+        
         function closeWindow(windowId) {
             let window = document.getElementById(windowId);
             window.style.display = "none";
             removeFromTaskbar(windowId);
         }
 
-        // إضافة تطبيق إلى Taskbar
+        
         function addToTaskbar(windowId) {
             let taskbar = document.getElementById("taskbar");
             let window = document.getElementById(windowId);
             let title = window.querySelector(".title-bar").textContent.trim();
 
-            // تجنب إضافة التطبيق إذا كان موجودًا بالفعل
+            
             if (document.getElementById(`taskbar-${windowId}`)) return;
 
             let taskbarItem = document.createElement("div");
@@ -167,7 +293,7 @@
             taskbar.appendChild(taskbarItem);
         }
 
-        // إزالة تطبيق من Taskbar
+       
         function removeFromTaskbar(windowId) {
             let taskbarItem = document.getElementById(`taskbar-${windowId}`);
             if (taskbarItem) {
@@ -175,7 +301,7 @@
             }
         }
 
-        // جعل النوافذ قابلة للسحب
+        
         function makeWindowDraggable(window) {
             let titleBar = window.querySelector(".title-bar");
             let isDragging = false;
@@ -199,7 +325,7 @@
             });
         }
 
-        // معالجة أوامر Terminal
+        
         function handleTerminalInput(event) {
             if (event.key === "Enter") {
                 let input = document.getElementById("terminalInput");
@@ -222,13 +348,13 @@
                                             - date: Show current date and time<br>
                                             - echo [text]: Print the text<br>
                                             - color [color]: Change text color (e.g., color red)<br>
-                                            - انت عاوز من التيرمينال ايه 😂</div>`;
+                                            `;
                         break;
                     case "clear":
                         output.innerHTML = "";
                         break;
                     case "about":
-                        output.innerHTML += `<div>DOORS OS VIP V7.0™ - Developed by Ahmed & Mahmoud's Corporation™</div>`;
+                        output.innerHTML += `<div>DOORS OS V10.0™ - Developed by Ziniors Corporation™</div>`;
                         break;
                     case "date":
                         let now = new Date();
@@ -255,12 +381,13 @@
                         break;
                 }
 
-                // التمرير إلى الأسفل
+                
                 output.scrollTop = output.scrollHeight;
             }
         }
+    
 
-        // وظائف الآلة الحاسبة
+        
         let currentTheme = 'dark';
 
         function appendToInput(value) {
@@ -284,6 +411,16 @@
                 input.value = 'Error';
             }
         }
+        function openApp(windowId) {
+            let window = document.getElementById(windowId);
+            if (!window) {
+                console.error('Window not found:', windowId);
+                return;
+            }
+            window.style.display = "block";
+            makeWindowDraggable(window);
+            addToTaskbar(windowId);
+        }
 
         function changeTheme() {
             const calculator = document.querySelector('.calculator');
@@ -298,19 +435,95 @@
             }
         }
 
-        // إصلاح أمر shutdown
+        
         function shutdown() {
-            document.body.innerHTML = "<h1>Doors OS VIP V7.0™ 🔥 Shutdown...</h1>";
+            document.body.innerHTML = "<h1>Doors OS VIP V10.0™ 🔥 Shutdown...</h1>";
         }
 
-        // إصلاح رسالة VIP Apps
+        
         function openVipApp() {
             let message = document.getElementById("vipMessage");
             message.style.display = "block";
             setTimeout(() => {
                 message.style.display = "none";
-            }, 3000); // إخفاء الرسالة بعد 3 ثواني
+            }, 3000); 
         }
+        
+let scanInProgress = false;
+
+function startScan() {
+    if(scanInProgress) return;
+    
+    const progressBar = document.getElementById('scanProgress');
+    const filesScanned = document.getElementById('filesScanned');
+    const threatsFound = document.getElementById('threatsFound');
+    const lastScan = document.getElementById('lastScan');
+    
+    
+    scanInProgress = true;
+    progressBar.style.width = '0%';
+    filesScanned.textContent = '0';
+    threatsFound.textContent = '0';
+    
+    
+    let progress = 0;
+    let scannedFiles = 0;
+    let threats = 0;
+    
+    const scanInterval = setInterval(() => {
+        progress += Math.random() * 3;
+        scannedFiles += Math.floor(Math.random() * 500);
+        filesScanned.textContent = scannedFiles.toLocaleString();
+        
+        
+        if(Math.random() < 0.1) {
+            threats++;
+            threatsFound.textContent = threats;
+        }
+        
+        if(progress >= 100) {
+            clearInterval(scanInterval);
+            scanInProgress = false;
+            progressBar.style.width = '100%';
+            lastScan.textContent = new Date().toLocaleString();
+            showScanResult(threats);
+        } else {
+            progressBar.style.width = progress + '%';
+        }
+    }, 50);
+}
+
+function showScanResult(threats) {
+    const notification = document.createElement('div');
+    notification.className = 'scan-notification';
+    notification.innerHTML = `
+        <i class="fas fa-${threats > 0 ? 'exclamation-triangle' : 'check-circle'}"></i>
+        <h4>Scan Complete! ${threats} threats detected</h4>
+        <p>${threats > 0 ? 'Address the threat immediately!' : 'Your system is secure!'}</p>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 5000);
+}
+
+
+function toggleRealTimeProtection() {
+    const statusIndicator = document.getElementById('statusIndicator');
+    const statusText = document.getElementById('realTimeStatus');
+    
+    if(statusText.textContent === 'Enabled') {
+        statusIndicator.style.backgroundColor = '#dc3545';
+        statusText.textContent = 'Disabled';
+        statusText.style.color = '#dc3545';
+    } else {
+        statusIndicator.style.backgroundColor = '#28a745';
+        statusText.textContent = 'Enabled';
+        statusText.style.color = '#28a745';
+    }
+}
     </script>
 </body>
 </html>
